@@ -1,0 +1,41 @@
+.pbj-reasoning__notes,
+.pbj-reasoning__warnings {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.pbj-reasoning__notes li {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--pbj-text-secondary);
+  padding-left: 14px;
+  position: relative;
+}
+
+.pbj-reasoning__notes li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--pbj-accent);
+}
+
+.pbj-reasoning__warnings li {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--pbj-danger, #b45309);
+  background: var(--pbj-surface);
+  border-radius: var(--pbj-radius-md);
+  padding: 10px 12px;
+}
+
+.pbj-reasoning__empty {
+  font-size: 13.5px;
+  color: var(--pbj-text-tertiary);
+  margin: 0 0 16px;
+}

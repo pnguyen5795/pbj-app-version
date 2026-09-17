@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- OPTIONAL PAID DEVELOPMENT CONFIGURATION. This example is not selected
+         by the project. Copy only after enabling Push Notifications for the
+         paid team's App ID and provisioning profile. -->
+    <key>aps-environment</key>
+    <string>development</string>
+    <!-- Background GPU Access is separate and intentionally absent. -->
+</dict>
+</plist>

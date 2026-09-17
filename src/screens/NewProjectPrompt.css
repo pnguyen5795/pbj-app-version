@@ -1,0 +1,393 @@
+.pbj-np2 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--pbj-bg);
+  /* New, but scoped to this screen only (not a global token) — the one
+     warm-brown base every hairline border and shadow on this screen's
+     material pass (textarea, chips, CTA) is mixed from, so they read as
+     one consistent material language instead of six independent guesses.
+     Flagging per the "tell me if you introduce new tokens" instruction. */
+  --pbj-np2-warm-rgb: 94, 62, 22;
+}
+
+/* Was flex:1, which forced .body to fill 100% of the space above the
+   footer regardless of content length — on this screen (short content:
+   hero, prompt, chips) that meant EVERY bit of leftover viewport height
+   collected as one uncapped gap directly above the CTA (measured: 268px
+   of 844px, ~32% of the screen, before this fix). Sized to content now;
+   the footer gets an explicit, bounded gap instead (see
+   .pbj-np2__footer's margin-top) rather than however much happens to be
+   left over. */
+.pbj-np2__body {
+  display: flex;
+  flex-direction: column;
+  padding: var(--pbj-content-top) var(--pbj-gutter) 0;
+}
+
+.pbj-np2__hero {
+  text-align: center;
+  animation: pbj-slide-up 0.5s var(--pbj-ease);
+}
+
+/* Tighter than the shared --pbj-type-header-tracking (-0.4px) — this is a
+   Recipe-screen-only refinement, not a change to the app-wide header
+   token, so it's a local override rather than an edit to the shared
+   value (which every other screen's h1 also reads). Large bold type
+   reads more intentional with a bit more negative tracking than the
+   token's default. */
+.pbj-np2__title {
+  font-size: var(--pbj-type-header-size);
+  font-weight: var(--pbj-type-header-weight);
+  letter-spacing: -0.7px;
+  line-height: var(--pbj-type-header-line);
+  color: var(--pbj-text);
+  text-align: center;
+  margin: 0;
+}
+
+/* Uses the existing subhead role (17px/400) rather than a new size —
+   exactly what a subtitle needs. Color is --pbj-text-muted warmed
+   slightly via color-mix rather than editing that shared token directly
+   (it's used app-wide for subhead/caption text elsewhere) — kept local
+   to this one line so "no cold greys" doesn't leak into other screens
+   that share the token. */
+.pbj-np2__subtitle {
+  font-size: var(--pbj-type-subhead-size);
+  font-weight: var(--pbj-type-subhead-weight);
+  color: color-mix(in srgb, var(--pbj-text-muted) 85%, var(--pbj-accent-2) 15%);
+  text-align: center;
+  margin: 4px 0 0;
+}
+
+/* ---- the recipe — a real field now, the hero of the screen ---- */
+.pbj-np2__prompt-wrap {
+  position: relative;
+  width: 100%;
+  margin: var(--pbj-space-4) 0 0;
+}
+
+/* Material pass: hairline border + inset shadow (below) make this read as
+   recessed glass rather than a flat grey rectangle — no outline though;
+   the caret and keyboard are still the only focus indicators (still no
+   :focus rule, matching the earlier "no blue ring" instruction — that
+   part hasn't changed, only the resting material has). min-height/
+   max-height are both double their previous values (117.5px / 128px) per
+   an earlier pass's explicit ask — see
+   the task report for the measured before/after. Extra bottom padding
+   (44px vs the 16px on every other edge) reserves room for the inset mic
+   icon so a long recipe's last line can't run under it. Caret is black,
+   not iOS system blue (#007AFF) — this screen is otherwise strictly
+   monochrome (no purple, no other color), and a lone blue caret would
+   read as a stray foreign accent; black keeps it consistent with every
+   other "attention" color already used here (mic fill, CTA). Same
+   judgment call this screen made before the redesign. */
+.pbj-np2__prompt {
+  width: 100%;
+  box-sizing: border-box;
+  /* Hairline + inset shadow pair reads as "recessed into the surface"
+     rather than flat fill: a crisp light 1px line right at the top inner
+     edge (catches light, like a bevel), then a soft warm shadow spreading
+     down from the top (the recess itself). Both low-opacity per the "if
+     you notice the shadow it's too strong" rule. Warm brown-based rgba
+     throughout (not black) to stay in the cream palette rather than cold
+     grey. */
+  border: 1px solid rgba(var(--pbj-np2-warm-rgb), 0.10);
+  background: color-mix(in srgb, var(--pbj-accent-2) 7%, white);
+  border-radius: 16px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 3px 6px rgba(var(--pbj-np2-warm-rgb), 0.09);
+  outline: none;
+  padding: 16px 16px 44px;
+  resize: none;
+  min-height: 235px;
+  max-height: 256px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", var(--pbj-font);
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: rgba(0, 0, 0, 0.9);
+  caret-color: #000;
+}
+
+.pbj-np2__prompt::placeholder {
+  color: rgba(60, 60, 67, 0.4);
+}
+
+/* ---- ingredients list — iOS inset grouped list pattern ---- */
+/* Doesn't exist in the DOM with zero styles added (see the component) —
+   this rule only ever applies to a container that already has ≥1 row. */
+.pbj-np2__ingredients {
+  margin-top: var(--pbj-space-4);
+  background: rgba(120, 120, 128, 0.06);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.pbj-np2__ingredient {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  height: 48px;
+  padding: 0 16px;
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pbj-space-1);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  /* Plays on mount — a `transition` can't animate a freshly-inserted
+     element (no prior computed value to interpolate from), so entry uses
+     a keyframe; exit (below) is a real property change on an
+     already-mounted row, where `transition` is the right tool. */
+  animation: pbj-ingredient-in 200ms var(--pbj-ease);
+}
+
+/* Hairline, inset 16px from the left (matching the row's own content
+   padding) and full to the right edge — the iOS convention. A
+   ::before rather than a real border so it can be positioned exactly,
+   independent of the row's own box-sizing. */
+.pbj-np2__ingredient:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 16px;
+  right: 0;
+  height: 0.5px;
+  background: rgba(60, 60, 67, 0.12);
+}
+
+.pbj-np2__ingredient-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  text-align: left;
+}
+
+.pbj-np2__ingredient-name {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--pbj-text);
+  line-height: 1.25;
+}
+
+/* 13px — one step down from the 15px standalone/inline size — since
+   stacked under the name it's reading as a caption, not a peer line (see
+   the task report for why stacked won over inline at 390px). */
+.pbj-np2__ingredient-phrase {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(60, 60, 67, 0.6);
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes pbj-ingredient-in {
+  from {
+    opacity: 0;
+    height: 0;
+  }
+  to {
+    opacity: 1;
+    height: 48px;
+  }
+}
+
+.pbj-np2__ingredient--removing {
+  animation: none;
+  transition: opacity 200ms var(--pbj-ease), height 200ms var(--pbj-ease);
+  opacity: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pbj-np2__ingredient {
+    animation: none;
+  }
+  .pbj-np2__ingredient--removing {
+    transition: none;
+  }
+}
+
+/* ---- chip row — "add an ingredient" ---- */
+/* A plain fixed gap now, NOT margin-top:auto. That auto-margin used to
+   be what pulled this row down to hug the mic/CTA footer — but this pass
+   deletes the mic cluster and wants the opposite effect: everything
+   (hero, recipe field, ingredients, chips) reading as one continuous
+   top-anchored block, with only the leftover slack (now naturally
+   larger, since the footer is so much shorter) collecting in ONE place —
+   right before the footer itself, via .body's own flex:1, same as
+   before. Putting the auto-margin here as well would have pulled the
+   chip row all the way down to the CTA and recreated a "two clusters
+   separated by a void" layout, the exact thing this pass is removing.
+   See the task report for the measured before/after gap. */
+.pbj-np2__chips-section {
+  margin-top: var(--pbj-space-4);
+}
+
+/* Horizontal, no visible scrollbar, native momentum scroll. Negative
+   margin + matching padding lets the row bleed to the true screen edge
+   (so the clipped 4th chip reads as clipped by the viewport, not by an
+   inner container) while the label above stays aligned to the normal
+   content gutter. */
+.pbj-np2__chips-row {
+  display: flex;
+  gap: var(--pbj-space-2);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  margin: 0 calc(-1 * var(--pbj-gutter));
+  padding: 0 var(--pbj-gutter);
+}
+
+.pbj-np2__chips-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* Soft warm drop shadow + hairline border (same warm brown-based rgba as
+   the recipe field, for one consistent material language) lift these off
+   the background instead of sitting flush with it. Press uses the same
+   spring curve as the mic button below (cubic-bezier(0.34, 1.56, 0.64, 1))
+   — already established in this file — rather than a new easing. */
+.pbj-np2__chip {
+  flex-shrink: 0;
+  border: 1px solid rgba(var(--pbj-np2-warm-rgb), 0.10);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--pbj-accent-2) 5%, white);
+  color: var(--pbj-text);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 10px 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 5px rgba(var(--pbj-np2-warm-rgb), 0.07), 0 1px 2px rgba(var(--pbj-np2-warm-rgb), 0.05);
+  transition: opacity 0.15s var(--pbj-ease),
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pbj-np2__chip:active {
+  transform: scale(0.97);
+}
+
+/* Cap (3) reached: remaining not-yet-added chips mute instead of
+   erroring. `disabled` on the button already makes them non-tappable. */
+.pbj-np2__chip--muted {
+  opacity: 0.4;
+}
+
+/* ---- mic — inset into the recipe field's own bottom-trailing corner ---- */
+/* JUDGMENT CALL (flagged per the task): positioned at the bottom-trailing
+   corner with a 12px inset rather than vertically centered on the
+   field's trailing edge. With the field now ~256px tall, a vertically-
+   centered icon would float in the middle of a lot of empty fill with no
+   relationship to anything — corner placement reads as "part of the
+   field's own chrome" the way a search field's clear button or a
+   messaging app's mic/send icon does, anchored to a corner of the input
+   rather than floating in its center. Confirmed on device before
+   finalizing — see the task report's screenshots. */
+.pbj-np2__mic {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(120, 120, 128, 0.12);
+  color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.15s var(--pbj-ease);
+}
+
+.pbj-np2__mic:active {
+  background: rgba(120, 120, 128, 0.2);
+  transform: scale(0.96);
+}
+
+.pbj-np2__mic-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(120, 120, 128, 0.3);
+  pointer-events: none;
+  animation: pbj-mic-pulse 1.6s ease-out infinite;
+}
+
+.pbj-np2__mic-ring--delay {
+  animation-delay: 0.8s;
+}
+
+@keyframes pbj-mic-pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pbj-np2__mic {
+    transition: none;
+  }
+  .pbj-np2__mic-ring {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* ---- footer: just the CTA now (mic cluster deleted this pass) ---- */
+/* Explicit gap above the CTA (--pbj-space-6, 48px — the largest step on
+   the 8pt grid, a deliberate one notch bigger than the --pbj-space-4
+   used between every other block on this screen, so the CTA still reads
+   as a separated final action) instead of the uncapped flex:1 slack this
+   used to inherit. See .pbj-np2__body for the full diagnosis. */
+.pbj-np2__footer {
+  margin-top: var(--pbj-space-6);
+  padding: var(--pbj-space-3) var(--pbj-gutter) calc(var(--pbj-safe-bottom) + var(--pbj-space-2));
+}
+
+/* Scoped to this one CTA, not the shared Button component — every other
+   screen's primary/secondary button is untouched. Warm-toned shadow
+   (brown-based rgba, not black) matching the rest of this screen's
+   material pass. */
+.pbj-np2__cta.pbj-btn--primary {
+  box-shadow: 0 4px 10px rgba(var(--pbj-np2-warm-rgb), 0.14), 0 1px 3px rgba(var(--pbj-np2-warm-rgb), 0.10);
+}
+
+.pbj-np2__cta.pbj-btn--primary:active:not(:disabled) {
+  box-shadow: 0 1px 3px rgba(var(--pbj-np2-warm-rgb), 0.10);
+}
+
+/* The disabled state was the flattest thing on screen — system grey fill,
+   no shadow, low-contrast label. Warmed fill (blended from the same
+   accent used everywhere else on this screen), a hairline edge, and a
+   soft shadow give it presence without making it read as available —
+   the label is darker for legibility but still clearly muted next to the
+   enabled state's solid black. */
+.pbj-np2__cta.pbj-btn--primary:disabled {
+  background: color-mix(in srgb, var(--pbj-accent-2) 16%, #ece4d8);
+  color: #8a7a68;
+  border: 1px solid rgba(var(--pbj-np2-warm-rgb), 0.10);
+  box-shadow: 0 1px 3px rgba(var(--pbj-np2-warm-rgb), 0.07);
+}

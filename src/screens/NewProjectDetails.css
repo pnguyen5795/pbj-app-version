@@ -1,0 +1,335 @@
+.pbj-np1 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--pbj-bg);
+}
+
+.pbj-np1__file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* flex:1 on body is what pins the footer to the true viewport bottom,
+   matching Your Style / Teach It exactly (see the task report for the
+   measured comparison). The title stays put near the top; __middle is the
+   flex:1 child that absorbs whatever leftover height there is by
+   centering the footage+wheel content within itself — same pattern Teach
+   It's own dropzone-wrap already uses — rather than leaving a bare dead
+   gap above the footer (which naive flex:1-on-everything would). */
+.pbj-np1__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pbj-space-subhead-content);
+  padding: var(--pbj-content-top) var(--pbj-gutter) 0;
+}
+
+/* No more justify-content:center — with the picker replaced by the much
+   shorter slider, centering split the extra slack into two roughly-equal
+   dead gaps (above the grid, and again below the slider before Next).
+   Content now stacks from the top at its natural size; margin-top:auto
+   on .pbj-np1__section--duration (the slider's own section) claims ALL
+   the leftover space in one place, right before it, so the slider always
+   sits close to Next — a fixed, small gap (the footer's own top padding)
+   — regardless of how much slack there is, rather than a gap that grows
+   with it. Same "hug the thing right before the CTA" pattern as Screen
+   2's mic/caption cluster. */
+.pbj-np1__middle {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pbj-space-4);
+}
+
+/* Conditional — only rendered at all when remaining allowance drops
+   below 20%. Text only, no bar/ring/red per spec. Sits with .middle's
+   own normal 32px gap on both sides now (no auto margin of its own) —
+   see .pbj-np1__middle > .pbj-np1__section:first-child below for where
+   the slack actually goes now that the footage-total line (this text's
+   old sibling) is gone. */
+.pbj-np1__footage-balance {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(60, 60, 67, 0.6);
+  margin: 0;
+  text-align: center;
+}
+
+.pbj-np1__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pbj-space-1);
+}
+
+/* The grid/dropzone section specifically (first child of .middle) — not
+   the duration section, which reuses the same base class. flex:1 lets
+   this box itself grow to fill whatever vertical slack .middle has,
+   with its own content (dropzone or grid) centered inside that grown
+   box via justify-content:center. That's what closes the "massive dead
+   gap between the grid and the duration block": previously the slack
+   collected as one bare gap somewhere in the middle of the layout,
+   dead space with nothing in it; now it's absorbed INSIDE this section's
+   own box, around its content, so the grid, the low-balance line (if
+   present), and the duration block all sit close together with .middle's
+   normal fixed 32px gaps between them — one continuous composition
+   instead of two clusters either side of a void. Duration still ends up
+   close to the footer as a direct consequence (this section eating the
+   slack pushes everything after it down to the bottom of .middle's box)
+   without needing a margin-top:auto of its own. Verified at both 1 clip
+   and a full 2-row grid — see the task report. */
+.pbj-np1__middle > .pbj-np1__section:first-child {
+  flex: 1;
+  justify-content: center;
+}
+
+/* ---- title (editable headline) ---- */
+
+.pbj-np1__hero {
+  text-align: center;
+  animation: pbj-slide-up 0.5s var(--pbj-ease);
+}
+
+/* Shared type treatment for both the display button's text and the input
+   that replaces it in place, so nothing visibly shifts when editing starts. */
+.pbj-np1__title-display,
+.pbj-np1__title-input {
+  font-size: var(--pbj-type-header-size);
+  font-weight: var(--pbj-type-header-weight);
+  letter-spacing: var(--pbj-type-header-tracking);
+  line-height: var(--pbj-type-header-line);
+  color: var(--pbj-text);
+}
+
+.pbj-np1__title-display {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--pbj-space-1);
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  max-width: 100%;
+}
+
+.pbj-np1__title-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Subtle and secondary — it hints at editability, doesn't shout. */
+.pbj-np1__title-pencil {
+  flex-shrink: 0;
+  color: var(--pbj-text-tertiary);
+}
+
+.pbj-np1__title-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+.pbj-np1__title-input::placeholder {
+  color: var(--pbj-text-tertiary);
+}
+
+.pbj-np1__title-input:focus {
+  outline: none;
+}
+
+/* ---- footage tile ---- */
+
+.pbj-np1__dropzone-empty {
+  width: 65%;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pbj-space-1);
+  border-radius: var(--pbj-radius-lg);
+  border: 1.5px dashed var(--pbj-border-strong);
+  background: var(--pbj-surface);
+  color: var(--pbj-text-secondary);
+  font-size: var(--pbj-type-caption-size);
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Filled state: a true 3-across CSS grid, not flex-wrap — exactly 3 tiles
+   per row every time (1fr columns), wrapping to additional rows as clips
+   are added, the trailing "+" tile flowing into the next open cell as
+   just another grid item (never its own orphaned row). Square tiles fall
+   out of the math for free: aspect-ratio:1/1 on each tile makes height
+   track the 1fr-computed width, no hardcoded px needed.
+
+   width:100% + box-sizing:border-box, no margin/padding tricks — the
+   previous version bled the grid outward via a negative margin (to give
+   the delete badge's -6px corner offset room without the scroll
+   container clipping it) and that's the prime suspect for both real-
+   device bugs this fixes: a negative margin on a flex-stretched item is
+   exactly the kind of edge case WebKit and Blink can resolve differently
+   (symmetric in Chrome, one-sided in Safari — matching "left margin
+   correct, right tile overflows" exactly). Removing it entirely, rather
+   than trying to get the asymmetry to cancel out again, is the robust
+   fix. The badge no longer needs the clearance — see .pbj-np1__clip-delete.
+
+   max-height is set from JS (see the component), measured off the grid's
+   own actual rendered width — not assumed — so it's exactly 2 tile-rows
+   + 1 gap on whatever device it runs on, never a guess that could clip. */
+.pbj-np1__clip-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--pbj-space-1);
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pbj-np1__clip-tile-wrap {
+  position: relative;
+  aspect-ratio: 1 / 1;
+}
+
+.pbj-np1__clip-tile {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: var(--pbj-card-radius);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  padding: 6px;
+  overflow: hidden;
+}
+
+/* Sits on .pbj-np1__clip-tile-wrap (position:relative, overflow visible),
+   not on .pbj-np1__clip-tile (overflow:hidden) — see the JSX comment.
+   Inset (not bled past the corner) on purpose: the grid scrolls
+   vertically (.pbj-np1__clip-grid's overflow-y:auto), and any negative
+   offset here would need the grid to carry extra clearance padding for
+   it — which is exactly the mechanism that caused the real-device
+   clipping/overflow bugs this fix addresses. A small positive inset reads
+   the same ("badge at the corner") without needing that clearance at all. */
+.pbj-np1__clip-delete {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  padding: 0;
+  cursor: pointer;
+  z-index: 2;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Mounts only once a real duration resolves (see the JSX) — a CSS
+   `transition` doesn't animate a freshly-inserted element (there's no
+   prior computed value to transition from), so this is a keyframe
+   animation instead, which plays on mount regardless. */
+.pbj-np1__clip-duration {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 2px 5px;
+  border-radius: var(--pbj-radius-sm);
+  animation: pbj-pill-fade-in 200ms var(--pbj-ease);
+}
+
+@keyframes pbj-pill-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pbj-np1__clip-duration {
+    animation: none;
+  }
+}
+
+.pbj-np1__dropzone-add {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--pbj-radius-lg);
+  border: 1.5px dashed var(--pbj-border-strong);
+  background: var(--pbj-surface);
+  color: var(--pbj-text);
+  font-size: 24px;
+  font-weight: 400;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pbj-np1__warning {
+  background: color-mix(in srgb, var(--pbj-danger) 8%, transparent);
+  border-radius: var(--pbj-card-radius);
+  padding: var(--pbj-space-1) var(--pbj-space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pbj-np1__warning-text {
+  font-size: var(--pbj-type-caption-size);
+  font-weight: 600;
+  color: var(--pbj-danger);
+  margin: 0;
+}
+
+.pbj-np1__warning-actions {
+  display: flex;
+  gap: var(--pbj-space-2);
+}
+
+.pbj-np1__warning-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--pbj-text);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.pbj-np1__upgrade-note {
+  font-size: 11.5px;
+  color: var(--pbj-text-tertiary);
+  margin: 0;
+}
+
+/* ---- footer ---- */
+/* Bottom padding matches Your Style / Teach It exactly: env(safe-area-
+   inset-bottom) + 16px — see the task report for the measured comparison. */
+.pbj-np1__footer {
+  padding: var(--pbj-space-3) var(--pbj-gutter) calc(var(--pbj-safe-bottom) + var(--pbj-space-2));
+}

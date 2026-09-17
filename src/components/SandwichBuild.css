@@ -1,0 +1,20 @@
+/* Aspect ratio matches the source crop (480x517) so object-fit:contain
+   never letterboxes unexpectedly. 155px is a ~22.5% reduction from the
+   original 200px — it was dominating the top half of the screen; see
+   the task report for the measured before/after. */
+.pbj-sandwich-build {
+  position: relative;
+  width: 155px;
+  aspect-ratio: 480 / 517;
+  flex-shrink: 0;
+}
+
+.pbj-sandwich-build__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}

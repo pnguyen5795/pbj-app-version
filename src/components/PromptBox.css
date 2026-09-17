@@ -1,0 +1,29 @@
+.pbj-promptbox {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pbj-promptbox__input {
+  width: 100%;
+  min-height: 100px;
+  resize: none;
+  border: none;
+  border-radius: var(--pbj-radius-lg);
+  background: var(--pbj-surface-elevated);
+  color: var(--pbj-text);
+  font-size: 16px;
+  line-height: 1.45;
+  padding: 16px 18px;
+  outline: none;
+  box-shadow: var(--pbj-shadow-sm);
+  transition: box-shadow 0.15s var(--pbj-ease);
+}
+
+.pbj-promptbox__input::placeholder {
+  color: var(--pbj-text-tertiary);
+}
+
+.pbj-promptbox__input:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--pbj-accent) 18%, transparent);
+}

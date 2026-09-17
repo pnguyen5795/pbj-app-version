@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleURLTypes</key><array><dict><key>CFBundleURLSchemes</key><array><string>com.pbj.native.mediatest</string></array></dict></array>
+<key>PBJAPIURL</key><string>$(PBJ_API_URL)</string>
+<key>PBJClerkPublishableKey</key><string>$(PBJ_CLERK_PUBLISHABLE_KEY)</string>
+<key>PBJAppleSignInEnabled</key><string>$(PBJ_APPLE_SIGN_IN_ENABLED)</string>
+<key>PBJPushEnabled</key><string>$(PBJ_PUSH_ENABLED)</string>
+<key>PBJPushEnvironment</key><string>$(PBJ_PUSH_ENVIRONMENT)</string>
+<key>PBJBackgroundGPUEnabled</key><string>$(PBJ_BACKGROUND_GPU_ENABLED)</string>
+<key>UIBackgroundModes</key><array><string>processing</string></array>
+<key>BGTaskSchedulerPermittedIdentifiers</key><array><string>$(PRODUCT_BUNDLE_IDENTIFIER).work.*</string></array>
+<key>NSAppTransportSecurity</key><dict><key>NSAllowsLocalNetworking</key><true/></dict>
+<key>NSLocalNetworkUsageDescription</key><string>PB&amp;J connects to your paired Mac to prepare AI edits and retrieve your saved projects.</string>
+</dict></plist>

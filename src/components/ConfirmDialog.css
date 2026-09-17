@@ -1,0 +1,83 @@
+.pbj-confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--pbj-overlay-scrim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 200;
+  animation: pbj-fade-in 0.15s var(--pbj-ease);
+}
+
+.pbj-confirm {
+  width: 100%;
+  max-width: 320px;
+  background: var(--pbj-surface-elevated);
+  border-radius: var(--pbj-radius-lg);
+  padding: 22px 20px 16px;
+  box-shadow: var(--pbj-shadow-lg);
+  text-align: center;
+  animation: pbj-confirm-pop 0.2s var(--pbj-ease);
+}
+
+@keyframes pbj-confirm-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.pbj-confirm__title {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+  color: var(--pbj-text);
+}
+
+.pbj-confirm__message {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--pbj-text-secondary);
+  margin: 0 0 18px;
+}
+
+.pbj-confirm__actions {
+  display: flex;
+  gap: 10px;
+}
+
+.pbj-confirm__btn {
+  flex: 1;
+  border: 1.5px solid var(--pbj-border-strong);
+  border-radius: var(--pbj-radius-pill);
+  padding: 11px 14px;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  background: transparent;
+  color: var(--pbj-text-secondary);
+  transition: transform 0.12s var(--pbj-ease);
+}
+
+.pbj-confirm__btn:active {
+  transform: scale(0.96);
+}
+
+.pbj-confirm__btn--primary {
+  background: var(--pbj-accent);
+  border-color: var(--pbj-accent);
+  color: #fff;
+}
+
+.pbj-confirm__btn--destructive {
+  background: var(--pbj-danger);
+  border-color: var(--pbj-danger);
+  color: #fff;
+}

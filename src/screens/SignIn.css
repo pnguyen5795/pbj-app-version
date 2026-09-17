@@ -1,0 +1,238 @@
+.pbj-signin {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--pbj-bg);
+}
+
+.pbj-signin__scroll {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--pbj-content-top) var(--pbj-gutter) calc(var(--pbj-safe-bottom) + var(--pbj-space-2));
+  min-height: 100dvh;
+}
+
+/* Everything above the pinned terms text lives in this flex:1 wrapper, so
+   whatever vertical slack is left pushes .legal down to the true bottom
+   instead of it sitting mid-screen — same slack-distribution pattern used
+   on New Project / Your Style / Teach It. */
+.pbj-signin__middle {
+  flex: 1;
+}
+
+.pbj-signin__top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  animation: pbj-slide-up 0.5s var(--pbj-ease);
+}
+
+.pbj-signin__lockup {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  margin-bottom: var(--pbj-space-6);
+}
+
+.pbj-signin__mark {
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+}
+
+/* Intentional purple exception (see Button.css's --primary for the default
+   black fill every other primary button uses) — echoes the jelly in the
+   sandwich logo. Scoped to this one button, not the shared --primary
+   class, so it doesn't leak onto any future primary button elsewhere. Do
+   not remove in a future purple sweep without explicit instruction. */
+.pbj-signin__apple-btn {
+  background: var(--pbj-accent);
+}
+
+/* Onboarding-only: headline + subhead are center-aligned here (and in the
+   email sub-mode below), while the logo lockup and social-proof pill stay
+   left where .pbj-signin__top puts them — width:100% is what makes
+   text-align:center visible on a shrink-to-fit flex-column item. */
+.pbj-signin__title {
+  width: 100%;
+  font-size: var(--pbj-type-header-size);
+  font-weight: var(--pbj-type-header-weight);
+  letter-spacing: var(--pbj-type-header-tracking);
+  line-height: var(--pbj-type-header-line);
+  color: var(--pbj-text);
+  text-align: center;
+  margin: 0 0 var(--pbj-space-header-subhead);
+}
+
+.pbj-signin__sub {
+  width: 100%;
+  font-size: var(--pbj-type-subhead-size);
+  font-weight: var(--pbj-type-subhead-weight);
+  color: var(--pbj-text-muted);
+  text-align: center;
+  /* max-width keeps the measure readable; margin-inline:auto centers that
+     narrower box itself within the flex-start container (overriding
+     align-items for just this item) so the text isn't just centered
+     inside a box still pinned to the left edge. */
+  max-width: 320px;
+  margin: 0 auto var(--pbj-space-4);
+}
+
+.pbj-signin__social-proof {
+  display: inline-flex;
+  align-self: center;
+  align-items: center;
+  gap: 6px;
+  background: var(--pbj-surface);
+  border: none;
+  box-shadow: none;
+  border-radius: var(--pbj-radius-pill);
+  padding: var(--pbj-space-1) var(--pbj-space-2);
+  font-size: var(--pbj-type-caption-size);
+  font-weight: 500;
+  color: var(--pbj-text-muted);
+}
+
+.pbj-signin__social-dot {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #34c759;
+}
+
+.pbj-signin__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pbj-space-button);
+  margin-top: var(--pbj-space-subhead-content);
+}
+
+.pbj-signin__divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: var(--pbj-space-1) 0;
+}
+
+.pbj-signin__divider span {
+  flex: 1;
+  height: 1px;
+  background: var(--pbj-border);
+}
+
+.pbj-signin__divider em {
+  font-style: normal;
+  font-size: var(--pbj-type-caption-size);
+  color: var(--pbj-text-tertiary);
+}
+
+/* Pinned to the true bottom of the screen (above safe-area-inset-bottom)
+   by .pbj-signin__middle's flex:1 above it, rather than sitting mid-screen
+   with a fixed margin. */
+.pbj-signin__legal {
+  text-align: center;
+  margin: var(--pbj-space-6) 0 0;
+}
+
+.pbj-signin__legal-line {
+  font-size: var(--pbj-type-caption-size);
+  line-height: 1.5;
+  color: var(--pbj-text-tertiary);
+  margin: 0;
+}
+
+.pbj-signin__legal-link {
+  color: var(--pbj-text-secondary);
+  text-decoration: underline;
+}
+
+/* ---- Email sub-mode (custom form — Clerk's headless hooks only, no
+   Clerk-branded UI: no "secured by Clerk", no dev-mode banner) ---- */
+
+.pbj-signin__scroll--email {
+  justify-content: flex-start;
+}
+
+.pbj-signin__email-body {
+  animation: pbj-slide-up 0.4s var(--pbj-ease);
+}
+
+.pbj-signin__email-title {
+  font-size: var(--pbj-type-header-size);
+  font-weight: var(--pbj-type-header-weight);
+  letter-spacing: var(--pbj-type-header-tracking);
+  line-height: var(--pbj-type-header-line);
+  color: var(--pbj-text);
+  text-align: center;
+  margin: 0 0 var(--pbj-space-header-subhead);
+}
+
+.pbj-signin__email-sub {
+  font-size: var(--pbj-type-subhead-size);
+  font-weight: var(--pbj-type-subhead-weight);
+  color: var(--pbj-text-muted);
+  text-align: center;
+  margin: 0 0 var(--pbj-space-subhead-content);
+  word-break: break-word;
+}
+
+.pbj-signin__email-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pbj-space-2);
+}
+
+.pbj-signin__input {
+  width: 100%;
+  box-sizing: border-box;
+  height: var(--pbj-input-height);
+  background: var(--pbj-input-bg);
+  border: none;
+  border-radius: var(--pbj-input-radius);
+  padding: 0 var(--pbj-space-2);
+  font-size: 16px;
+  color: var(--pbj-text);
+  -webkit-appearance: none;
+  box-shadow: var(--pbj-shadow-raised);
+  transition: box-shadow 0.15s var(--pbj-ease);
+}
+
+.pbj-signin__input:focus {
+  outline: none;
+  box-shadow: 0 0 0 1.5px #000;
+  background: var(--pbj-surface-elevated);
+}
+
+.pbj-signin__input--code {
+  letter-spacing: 0.3em;
+  font-weight: 700;
+  text-align: center;
+}
+
+.pbj-signin__error {
+  font-size: var(--pbj-type-caption-size);
+  color: var(--pbj-danger);
+  margin: -4px 0 0;
+}
+
+.pbj-signin__switch {
+  margin-top: var(--pbj-space-3);
+  font-size: 14px;
+  color: var(--pbj-text-muted);
+  text-align: left;
+}
+
+.pbj-signin__switch-link {
+  color: #000;
+  font-weight: 600;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: inherit;
+}

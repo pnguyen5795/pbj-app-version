@@ -1,0 +1,16 @@
+{
+  "name": "style-test",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Standalone CLI script for experimenting with the Twelve Labs video analysis API, separate from the main PB&J app.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "analyze": "node analyze.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}

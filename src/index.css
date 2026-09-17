@@ -1,0 +1,234 @@
+:root {
+  /* Forced light mode — dark mode intentionally disabled for now. */
+  color-scheme: light;
+
+  /* Accents — used sparingly for highlights, primary buttons, and active
+     states only. The base neutrals below do most of the visual work. */
+  --pbj-accent: #8b5cf6;
+  --pbj-accent-2: #f2a65a;
+
+  /* Vertical wash, lightest at top, warming toward the bottom — pulls from
+     the existing brand accents (jelly purple / toasted-bread orange)
+     rather than a generic tint. Applied here once, at the token every
+     screen's root already reads for its background — see the 20 screen
+     CSS files' `background: var(--pbj-bg);` — so this is the single
+     shared spot, not a per-screen change. Cards/surfaces use
+     --pbj-surface(-elevated), and the primary button is a literal #000,
+     so neither is affected by this. Two options kept side by side below;
+     only one is active (--pbj-bg-cream is currently applied) — swap which
+     one --pbj-bg aliases to switch. */
+  --pbj-bg-cream: linear-gradient(180deg, #ffffff 0%, color-mix(in srgb, var(--pbj-accent-2) 10%, white) 100%);
+  --pbj-bg-purple: linear-gradient(180deg, #ffffff 0%, color-mix(in srgb, var(--pbj-accent) 6%, white) 100%);
+  --pbj-bg: var(--pbj-bg-cream);
+  --pbj-surface: #f5f5f5;
+  --pbj-surface-elevated: #ffffff;
+  --pbj-text: #1d1d1f;
+  --pbj-text-secondary: #8e8e93;
+  --pbj-text-tertiary: #aeaeb2;
+  --pbj-border: #e5e5ea;
+  --pbj-border-strong: #d1d1d6;
+  --pbj-danger: #d64545;
+  --pbj-success: #2fa86a;
+  --pbj-overlay-scrim: rgba(20, 16, 14, 0.45);
+
+  --pbj-radius-sm: 10px;
+  --pbj-radius-md: 16px;
+  --pbj-radius-lg: 22px;
+  --pbj-radius-xl: 28px;
+  --pbj-radius-pill: 999px;
+
+  --pbj-shadow-sm: 0 1px 2px rgba(20, 16, 14, 0.06), 0 1px 1px rgba(20, 16, 14, 0.04);
+  --pbj-shadow-md: 0 8px 24px rgba(20, 16, 14, 0.10), 0 2px 6px rgba(20, 16, 14, 0.06);
+  --pbj-shadow-lg: 0 20px 50px rgba(20, 16, 14, 0.18), 0 6px 16px rgba(20, 16, 14, 0.08);
+  /* A subtle lift — Button (non-text variants), text inputs, and Your
+     Style's chips. Not a visible drop shadow like --pbj-shadow-md. */
+  --pbj-shadow-raised: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+
+  --pbj-safe-top: env(safe-area-inset-top, 0px);
+  --pbj-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --pbj-safe-left: env(safe-area-inset-left, 0px);
+  --pbj-safe-right: env(safe-area-inset-right, 0px);
+
+  --pbj-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+
+  --pbj-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ==== Design-system pass — single source of truth for type, spacing,
+     buttons, and inputs. Every screen consumes these; no screen defines
+     its own font-size/weight or hardcoded spacing px after this point. ==== */
+
+  /* ---- Type scale: exactly 4 roles, nothing else ---- */
+  --pbj-type-header-size: 34px;
+  --pbj-type-header-weight: 700;
+  --pbj-type-header-tracking: -0.4px;
+  --pbj-type-header-line: 40px;
+
+  --pbj-type-subhead-size: 17px;
+  --pbj-type-subhead-weight: 400;
+
+  --pbj-type-body-size: 17px;
+  --pbj-type-body-weight: 600;
+
+  --pbj-type-caption-size: 13px;
+  --pbj-type-caption-weight: 400;
+
+  /* Shared color for subhead + caption text (both roles use it). Distinct
+     from --pbj-text-secondary/--pbj-text-tertiary, which stay put for
+     non-type-scale uses (icons, inactive states, etc.) so this pass
+     doesn't silently recolor things outside its scope. */
+  --pbj-text-muted: #6b6b6b;
+
+  /* ---- Spacing: 8pt grid ---- */
+  --pbj-space-1: 8px;
+  --pbj-space-2: 16px;
+  --pbj-space-3: 24px;
+  --pbj-space-4: 32px;
+  --pbj-space-6: 48px;
+
+  --pbj-gutter: var(--pbj-space-3); /* 24px horizontal gutter, identical on every screen */
+  --pbj-header-bar-height: 44px; /* back button's footprint, reserved whether or not it's shown */
+  /* Top of content to first element: safe-top + top gutter + header bar + 32px gap below it. */
+  --pbj-content-top: calc(
+    var(--pbj-safe-top) + var(--pbj-gutter) + var(--pbj-header-bar-height) + var(--pbj-space-4)
+  );
+  --pbj-space-header-subhead: var(--pbj-space-1); /* 8px */
+  --pbj-space-subhead-content: var(--pbj-space-4); /* 32px */
+  --pbj-space-block: var(--pbj-space-3); /* 24px between stacked content blocks */
+  --pbj-space-button: 12px; /* between stacked buttons — the one value off-grid, per spec */
+
+  /* ---- Buttons: one component, three variants (see Button.tsx) ---- */
+  --pbj-button-height: 56px;
+  --pbj-button-radius: var(--pbj-radius-xl); /* 28px — already a full pill at this height */
+  --pbj-button-disabled-bg: var(--pbj-border); /* #e5e5ea */
+  --pbj-button-disabled-fg: #a1a1a6;
+
+  /* ---- Inputs ---- */
+  --pbj-input-height: 56px;
+  --pbj-input-radius: 14px;
+  --pbj-input-bg: #f2f2f7;
+
+  /* ---- Cards / containers ---- */
+  --pbj-card-radius: var(--pbj-radius-md); /* 16px */
+
+  /* ---- Tap targets ---- */
+  --pbj-tap-min: 44px;
+}
+
+/* ---- Type-role utility classes — the mechanical way screens consume the
+   scale above without redeclaring font-size/weight/color themselves. ---- */
+.pbj-type-header {
+  font-size: var(--pbj-type-header-size);
+  font-weight: var(--pbj-type-header-weight);
+  letter-spacing: var(--pbj-type-header-tracking);
+  line-height: var(--pbj-type-header-line);
+  color: var(--pbj-text);
+  margin: 0;
+}
+
+.pbj-type-subhead {
+  font-size: var(--pbj-type-subhead-size);
+  font-weight: var(--pbj-type-subhead-weight);
+  color: var(--pbj-text-muted);
+  margin: 0;
+}
+
+.pbj-type-body {
+  font-size: var(--pbj-type-body-size);
+  font-weight: var(--pbj-type-body-weight);
+  color: var(--pbj-text);
+  margin: 0;
+}
+
+.pbj-type-caption {
+  font-size: var(--pbj-type-caption-size);
+  font-weight: var(--pbj-type-caption-weight);
+  color: var(--pbj-text-muted);
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--pbj-bg);
+  color: var(--pbj-text);
+  font-family: var(--pbj-font);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior-y: none;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  font-family: inherit;
+}
+
+input,
+textarea {
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+@keyframes pbj-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pbj-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pbj-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes pbj-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Brief window while Clerk checks for an existing session on first paint —
+   intentionally blank rather than a spinner, since it should resolve in a
+   frame or two and a flashing spinner would be more distracting than a
+   plain background. */
+.pbj-auth-loading {
+  min-height: 100dvh;
+  background: var(--pbj-bg);
+}

@@ -1,0 +1,8 @@
+.pbj-placeholder {
+  border-radius: var(--pbj-radius-sm);
+}
+
+.pbj-placeholder--inline {
+  display: inline-block;
+  padding: 1px 6px;
+}

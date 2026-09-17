@@ -1,0 +1,10 @@
+// OPTIONAL: apply only to a paid team's development configuration.
+// This file is not referenced by the project and changes no default build.
+// Copy the entitlements example to the path below; keep the local copies out
+// of version control. Retain your existing service and signing settings.
+PBJ_PUSH_ENABLED = YES
+PBJ_PUSH_ENVIRONMENT = sandbox
+CODE_SIGN_ENTITLEMENTS = Configuration/Push-Development.entitlements
+
+// A push entitlement does not grant background GPU access.
+PBJ_BACKGROUND_GPU_ENABLED = NO

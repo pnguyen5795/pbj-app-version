@@ -1,0 +1,60 @@
+.pbj-usage-meter {
+  background: var(--pbj-surface);
+  border-radius: var(--pbj-card-radius);
+  padding: var(--pbj-space-2);
+  display: flex;
+  flex-direction: column;
+}
+
+.pbj-usage-meter__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pbj-usage-meter__row--stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.pbj-usage-meter__label {
+  font-size: var(--pbj-type-caption-size);
+  color: var(--pbj-text);
+  font-weight: 500;
+}
+
+.pbj-usage-meter__value {
+  font-size: var(--pbj-type-caption-size);
+  color: var(--pbj-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.pbj-usage-meter__tier-badge {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--pbj-accent);
+  background: color-mix(in srgb, var(--pbj-accent) 12%, transparent);
+  padding: 4px 10px;
+  border-radius: var(--pbj-radius-pill);
+}
+
+.pbj-usage-meter__divider {
+  height: 1px;
+  background: var(--pbj-border);
+  margin: 14px 0;
+}
+
+.pbj-usage-meter__bar {
+  height: 6px;
+  border-radius: var(--pbj-radius-pill);
+  background: var(--pbj-border);
+  overflow: hidden;
+}
+
+.pbj-usage-meter__bar-fill {
+  height: 100%;
+  background: var(--pbj-accent);
+  border-radius: var(--pbj-radius-pill);
+}

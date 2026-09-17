@@ -1,0 +1,111 @@
+/* iOS UISlider-style horizontal duration slider. Native <input
+   type="range"> underneath — real drag, real tap-to-jump, real step-snap
+   all come free from the browser; only the visual chrome (track fill,
+   thumb) is replaced via pseudo-elements and a JS-driven --pbj-slider-pct
+   custom property. */
+
+.pbj-duration-slider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* iOS secondaryLabel. */
+.pbj-duration-slider__label {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(60, 60, 67, 0.6);
+}
+
+.pbj-duration-slider__value {
+  margin-top: 2px;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--pbj-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 70% of content width, centered (via the parent's align-items:center) —
+   not narrower: at 5-second steps across the full 5s-300s range that's
+   60 positions, and a narrower track gives fewer pixels per step, making
+   precise selection harder. Tap-to-jump and the 44px hit region both
+   still apply across the full narrowed width — those come from the
+   native <input>'s own box, unaffected by how wide that box is. */
+.pbj-duration-slider__track {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 70%;
+  /* 44px tall hit region even though the visual track is 4px — the whole
+     input box is the tap/drag target, not just the thin painted line. */
+  height: 44px;
+  margin: var(--pbj-space-2) 0 0;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  touch-action: pan-y;
+}
+
+.pbj-duration-slider__track::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    #000 0%,
+    #000 var(--pbj-slider-pct, 0%),
+    rgba(120, 120, 128, 0.16) var(--pbj-slider-pct, 0%),
+    rgba(120, 120, 128, 0.16) 100%
+  );
+}
+
+.pbj-duration-slider__track::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  margin-top: -12px; /* (4px track - 28px thumb) / 2, centers it on the track */
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  /* Native iOS thumb shadow — this is what reads as a real UISlider thumb
+     rather than a flat web control. */
+  box-shadow: 0 0.5px 4px rgba(0, 0, 0, 0.12), 0 6px 13px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Promotes the thumb to its own compositor layer ahead of the drag
+     rather than at the first :active scale, so dragging itself never
+     triggers a layer-promotion stutter. Positioning during drag is the
+     browser's own native handling (this is a real <input type="range">,
+     not a custom-positioned element), already GPU-composited. */
+  will-change: transform;
+}
+
+.pbj-duration-slider__track:active::-webkit-slider-thumb {
+  transform: scale(1.05);
+}
+
+.pbj-duration-slider__track::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(120, 120, 128, 0.16);
+}
+
+.pbj-duration-slider__track::-moz-range-progress {
+  height: 4px;
+  border-radius: 2px;
+  background: #000;
+}
+
+.pbj-duration-slider__track::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0.5px 4px rgba(0, 0, 0, 0.12), 0 6px 13px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+
+.pbj-duration-slider__track:active::-moz-range-thumb {
+  transform: scale(1.05);
+}

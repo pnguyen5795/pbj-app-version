@@ -1,0 +1,147 @@
+.pbj-home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--pbj-bg);
+  position: relative;
+}
+
+.pbj-home__settings {
+  position: fixed;
+  top: calc(var(--pbj-safe-top) + var(--pbj-gutter));
+  right: var(--pbj-gutter);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pbj-tap-min);
+  height: var(--pbj-tap-min);
+  border-radius: 50%;
+  border: none;
+  background: var(--pbj-surface);
+  color: var(--pbj-text-secondary);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s var(--pbj-ease), transform 0.12s var(--pbj-ease);
+}
+
+.pbj-home__settings:active {
+  transform: scale(0.92);
+  background: var(--pbj-border);
+}
+
+/* Content anchors top-to-bottom (logo near the top, actions pinned at the
+   bottom) rather than floating as one centered block mid-screen — this was
+   the worst dead-space offender in the app. */
+.pbj-home__center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--pbj-content-top) var(--pbj-gutter) calc(var(--pbj-safe-bottom) + var(--pbj-space-2));
+}
+
+.pbj-home__mark {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  animation: pbj-slide-up 0.5s var(--pbj-ease);
+}
+
+/* ---- in-progress section — one row per active render ---- */
+.pbj-home__renders {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pbj-space-2);
+}
+
+.pbj-home__render-row {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  background: var(--pbj-surface);
+  border: none;
+  border-radius: var(--pbj-radius-lg);
+  padding: 14px var(--pbj-space-2);
+  cursor: pointer;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.12s var(--pbj-ease);
+}
+
+.pbj-home__render-row:active {
+  transform: scale(0.985);
+}
+
+.pbj-home__render-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--pbj-space-1);
+}
+
+.pbj-home__render-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--pbj-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pbj-home__render-percent {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--pbj-text-secondary);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+/* Track + fill read as one glossy jelly smear, not a system progress bar:
+   a soft lavender track, a purple gradient fill with a light highlight
+   streak near the top (the "glossy" part) and a slightly bulged leading
+   edge so the fill's tip reads a little organic rather than a hard-edged
+   rectangle. */
+.pbj-home__render-track {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(139, 92, 246, 0.12);
+  overflow: hidden;
+}
+
+.pbj-home__render-fill {
+  position: relative;
+  height: 100%;
+  min-width: 10px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #a78bfa 0%, #8b5cf6 55%, #6d28d9 100%);
+  box-shadow: 0 0 0 1px rgba(109, 40, 217, 0.15) inset;
+  transition: width 0.3s var(--pbj-ease);
+}
+
+.pbj-home__render-fill::after {
+  content: "";
+  position: absolute;
+  inset: 1px 1px auto 1px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+}
+
+.pbj-home__render-status {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--pbj-text-tertiary);
+}
+
+.pbj-home__actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pbj-space-button);
+}

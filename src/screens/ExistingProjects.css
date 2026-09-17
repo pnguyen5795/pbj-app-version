@@ -1,0 +1,238 @@
+.pbj-projects {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--pbj-bg);
+}
+
+.pbj-projects__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--pbj-content-top) var(--pbj-gutter) calc(var(--pbj-safe-bottom) + var(--pbj-space-2));
+  display: flex;
+  flex-direction: column;
+  gap: var(--pbj-space-subhead-content);
+}
+
+.pbj-projects__title {
+  font-size: var(--pbj-type-header-size);
+  font-weight: var(--pbj-type-header-weight);
+  letter-spacing: var(--pbj-type-header-tracking);
+  line-height: var(--pbj-type-header-line);
+  color: var(--pbj-text);
+  margin: 0;
+}
+
+.pbj-projects__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--pbj-space-2);
+}
+
+.pbj-projects__tile-wrap {
+  padding: 5px;
+}
+
+.pbj-projects__tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pbj-projects__thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--pbj-card-radius);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.pbj-projects__duration {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2px 5px;
+  border-radius: var(--pbj-radius-sm);
+  margin: 5px;
+}
+
+/* Top-trailing corner — iOS system blue, matching Mail/Photos exactly
+   rather than the app's own purple accent; this is a system convention
+   the creator already knows, not a brand moment. */
+.pbj-projects__unread-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #007aff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.35);
+}
+
+.pbj-projects__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+}
+
+.pbj-projects__name {
+  font-size: var(--pbj-type-caption-size);
+  font-weight: 600;
+  color: var(--pbj-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Real 44x44 tap target, no negative-margin trick needed now that cards
+   are ~160px wide (2-up). Color is a deliberate #767676, not a design
+   token reuse — it's the specific gray that clears 4.5:1 contrast against
+   white/var(--pbj-surface-elevated); var(--pbj-text-tertiary) does not. */
+.pbj-projects__menu-btn {
+  flex-shrink: 0;
+  width: var(--pbj-tap-min);
+  height: var(--pbj-tap-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #767676;
+  font-size: 15px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.pbj-projects__rename-input {
+  width: 100%;
+  font-size: var(--pbj-type-caption-size);
+  font-weight: 600;
+  color: var(--pbj-text);
+  border: 1px solid #000;
+  border-radius: 4px;
+  padding: 1px 4px;
+  font-family: inherit;
+}
+
+.pbj-projects__menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 5;
+  background: var(--pbj-surface-elevated);
+  border-radius: var(--pbj-card-radius);
+  box-shadow: var(--pbj-shadow-md);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 92px;
+}
+
+.pbj-projects__menu button {
+  min-height: var(--pbj-tap-min);
+  background: none;
+  border: none;
+  padding: 0 var(--pbj-space-2);
+  font-size: var(--pbj-type-caption-size);
+  font-weight: 600;
+  color: var(--pbj-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.pbj-projects__menu-delete {
+  color: var(--pbj-danger);
+}
+
+.pbj-projects__empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 4px;
+  padding: 40px 0;
+}
+
+.pbj-projects__empty-title {
+  font-size: var(--pbj-type-body-size);
+  font-weight: var(--pbj-type-body-weight);
+  color: var(--pbj-text);
+  margin: 0;
+}
+
+.pbj-projects__empty-sub {
+  font-size: var(--pbj-type-caption-size);
+  color: var(--pbj-text-muted);
+  margin: 0;
+}
+
+.pbj-projects__toast {
+  position: fixed;
+  left: var(--pbj-gutter);
+  right: var(--pbj-gutter);
+  bottom: calc(var(--pbj-safe-bottom) + var(--pbj-space-3));
+  z-index: 15;
+  margin: 0;
+  padding: var(--pbj-space-2);
+  border-radius: var(--pbj-card-radius);
+  background: var(--pbj-text);
+  color: #fff;
+  font-size: var(--pbj-type-caption-size);
+  font-weight: 600;
+  text-align: center;
+  animation: pbj-slide-up 0.2s var(--pbj-ease);
+}
+
+.pbj-projects__delete-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--pbj-overlay-scrim);
+  display: flex;
+  align-items: flex-end;
+  z-index: 20;
+}
+
+.pbj-projects__delete-modal {
+  width: 100%;
+  background: var(--pbj-surface-elevated);
+  border-radius: var(--pbj-radius-xl) var(--pbj-radius-xl) 0 0;
+  padding: var(--pbj-space-3) var(--pbj-gutter) calc(var(--pbj-safe-bottom) + var(--pbj-space-2));
+  display: flex;
+  flex-direction: column;
+  gap: var(--pbj-space-button);
+  animation: pbj-slide-up 0.25s var(--pbj-ease);
+}
+
+.pbj-projects__delete-title {
+  font-size: var(--pbj-type-body-size);
+  font-weight: var(--pbj-type-body-weight);
+  color: var(--pbj-text);
+  text-align: center;
+  margin: 0;
+}
+
+.pbj-projects__delete-body {
+  font-size: var(--pbj-type-caption-size);
+  color: var(--pbj-text-muted);
+  text-align: center;
+  margin: 0 0 var(--pbj-space-1);
+}
+
+/* Cancel (the default Button primary, rendered first) carries the visual
+   weight; Delete is this quiet red text-link underneath it — same
+   hierarchy as the corrected Cooking cancel dialog. */
+.pbj-projects__delete-confirm-btn {
+  color: var(--pbj-danger);
+}

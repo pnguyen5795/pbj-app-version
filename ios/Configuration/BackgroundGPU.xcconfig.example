@@ -1,0 +1,6 @@
+// OPTIONAL AND SEPARATE FROM PUSH NOTIFICATIONS.
+// Apply only after Xcode has added Background GPU Access to the target's
+// actual signed entitlements and the provisioning profile permits it.
+// The app also checks BGTaskScheduler.supportedResources at runtime.
+// This example does not add an entitlement or change a default build.
+PBJ_BACKGROUND_GPU_ENABLED = YES

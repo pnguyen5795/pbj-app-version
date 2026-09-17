@@ -1,0 +1,7 @@
+// Select this file (after making a local copy) as your build configuration,
+// or add these three user-defined settings to the PBJ target in Xcode.
+// URLs use $() so xcconfig does not interpret // as a comment.
+PBJ_API_URL = https:/$()/your-private-api.example.com
+PBJ_CLERK_PUBLISHABLE_KEY = pk_test_REPLACE_WITH_YOUR_CLERK_KEY
+// Enable only after adding Sign in with Apple to the target and Clerk instance.
+PBJ_APPLE_SIGN_IN_ENABLED = NO

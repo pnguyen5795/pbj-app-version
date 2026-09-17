@@ -1,0 +1,80 @@
+.pbj-settings {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--pbj-bg);
+}
+
+/* TopBar is a real in-flow, sticky element (not absolute/floating like
+   every other screen's back button), so it already reserves its own
+   height — content here only needs the standard 32px gap after it, not
+   the full --pbj-content-top (that would double-count the header-bar
+   zone TopBar already occupies). */
+.pbj-settings__body {
+  flex: 1;
+  padding: var(--pbj-space-4) var(--pbj-gutter) calc(var(--pbj-safe-bottom) + var(--pbj-space-3));
+  display: flex;
+  flex-direction: column;
+  gap: var(--pbj-space-block);
+}
+
+.pbj-settings__hero-title {
+  font-size: var(--pbj-type-header-size);
+  font-weight: var(--pbj-type-header-weight);
+  letter-spacing: var(--pbj-type-header-tracking);
+  line-height: var(--pbj-type-header-line);
+  color: var(--pbj-text);
+  margin: 0 0 var(--pbj-space-header-subhead);
+}
+
+.pbj-settings__hero-sub {
+  font-size: var(--pbj-type-subhead-size);
+  font-weight: var(--pbj-type-subhead-weight);
+  color: var(--pbj-text-muted);
+  margin: 0;
+}
+
+.pbj-settings__avatar-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pbj-space-1);
+  padding: var(--pbj-space-1) 0;
+}
+
+.pbj-settings__avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--pbj-accent);
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pbj-settings__avatar-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.pbj-settings__name {
+  font-size: var(--pbj-type-body-size);
+  font-weight: var(--pbj-type-body-weight);
+  color: var(--pbj-text);
+  text-align: center;
+}
+
+.pbj-settings__email {
+  font-size: var(--pbj-type-caption-size);
+  color: var(--pbj-text-muted);
+  text-align: center;
+  display: block;
+}
+
+/* Subscription/usage card moved to components/UsageMeter.css — shared
+   with the Dashboard now instead of duplicated here. */

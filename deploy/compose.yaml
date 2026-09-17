@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: pbj
+      POSTGRES_USER: pbj
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set a database password}
+    volumes:
+      - database:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pbj -d pbj"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  api:
+    build:
+      context: ../server
+      dockerfile: Dockerfile.native
+    env_file: .env
+    environment:
+      PBJ_PROCESS: api
+      DATABASE_URL: postgresql://pbj:${POSTGRES_PASSWORD}@postgres:5432/pbj
+    ports:
+      - "127.0.0.1:8787:8787"
+    volumes:
+      - media:/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+  worker:
+    build:
+      context: ../server
+      dockerfile: Dockerfile.native
+    env_file: .env
+    environment:
+      PBJ_PROCESS: worker
+      DATABASE_URL: postgresql://pbj:${POSTGRES_PASSWORD}@postgres:5432/pbj
+    volumes:
+      - media:/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  database:
+  media:

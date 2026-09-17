@@ -1,0 +1,210 @@
+.pbj-teach-it {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--pbj-bg);
+}
+
+.pbj-teach-it__file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---- State A: ask ---- */
+
+.pbj-teach-it__ask {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: var(--pbj-content-top) var(--pbj-gutter) calc(var(--pbj-safe-bottom) + var(--pbj-space-4));
+}
+
+.pbj-teach-it__ask-hero {
+  text-align: center;
+  animation: pbj-slide-up 0.5s var(--pbj-ease);
+}
+
+.pbj-teach-it__title {
+  font-size: var(--pbj-type-header-size);
+  font-weight: var(--pbj-type-header-weight);
+  letter-spacing: var(--pbj-type-header-tracking);
+  line-height: var(--pbj-type-header-line);
+  color: var(--pbj-text);
+  margin: 0 0 var(--pbj-space-header-subhead);
+}
+
+.pbj-teach-it__sub {
+  font-size: var(--pbj-type-subhead-size);
+  font-weight: var(--pbj-type-subhead-weight);
+  color: var(--pbj-text-muted);
+  /* max-width keeps the measure readable; margin:0 auto centers that
+     narrower box itself, not just the text inside it. */
+  margin: 0 auto;
+  max-width: 320px;
+}
+
+/* Only one reference clip is needed here (unlike New project's multi-clip
+   grid) — a small, compact square reads as "just one" without implying
+   there's a grid to fill. This is the primary action on the screen, so it
+   reads that way: a solid black border and black content, not the dashed
+   gray "empty/disabled" treatment New project's dropzone uses for a
+   secondary upload slot. */
+.pbj-teach-it__dropzone-wrap {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pbj-teach-it__dropzone {
+  width: 160px;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pbj-space-1);
+  padding: var(--pbj-space-2);
+  border-radius: var(--pbj-radius-lg);
+  border: 1.5px solid #000;
+  background: var(--pbj-surface-elevated);
+  color: var(--pbj-text);
+  font-size: var(--pbj-type-caption-size);
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: var(--pbj-shadow-sm);
+  transition: transform 0.15s var(--pbj-ease), box-shadow 0.15s var(--pbj-ease);
+}
+
+.pbj-teach-it__dropzone:active {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+
+.pbj-teach-it__footer {
+  padding: 0 var(--pbj-gutter) calc(var(--pbj-safe-bottom) + var(--pbj-space-2));
+}
+
+/* ---- State B: analyzing ---- */
+/* Deliberately still centered — a brief, non-interactive, auto-advancing
+   loading beat, not a content screen with dead space around it. Centering
+   a spinner/blob during a load is the iOS convention, not the anti-pattern
+   this pass targets. */
+
+.pbj-teach-it__analyzing {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pbj-space-6);
+  padding: var(--pbj-gutter);
+}
+
+.pbj-teach-it__blob {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.pbj-teach-it__blob span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  animation: pbj-blob 2.4s var(--pbj-ease) infinite;
+}
+
+.pbj-teach-it__blob span:nth-child(1) {
+  background: var(--pbj-accent);
+  opacity: 0.55;
+}
+
+.pbj-teach-it__blob span:nth-child(2) {
+  background: var(--pbj-accent-2);
+  opacity: 0.5;
+  animation-delay: 0.3s;
+}
+
+.pbj-teach-it__blob span:nth-child(3) {
+  background: linear-gradient(135deg, var(--pbj-accent), var(--pbj-accent-2));
+  opacity: 0.9;
+  animation-delay: 0.6s;
+}
+
+@keyframes pbj-blob {
+  0%,
+  100% {
+    transform: scale(0.75) translate(0, 0);
+  }
+  33% {
+    transform: scale(1) translate(6px, -8px);
+  }
+  66% {
+    transform: scale(0.85) translate(-6px, 6px);
+  }
+}
+
+.pbj-teach-it__observation {
+  font-size: var(--pbj-type-body-size);
+  font-weight: var(--pbj-type-body-weight);
+  color: var(--pbj-text);
+  padding: var(--pbj-space-1) var(--pbj-space-2);
+  text-align: center;
+  animation: pbj-slide-up 0.4s var(--pbj-ease);
+}
+
+/* ---- State C: style card ---- */
+/* Same reasoning as state B — a celebratory reveal, conventionally
+   centered, not left in scope for the top-anchor rule. */
+
+.pbj-teach-it__card-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pbj-space-2);
+  padding: var(--pbj-gutter);
+}
+
+.pbj-teach-it__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pbj-space-1);
+  padding: var(--pbj-space-4) var(--pbj-space-6);
+  border-radius: var(--pbj-radius-xl);
+  animation: pbj-card-gather 0.5s var(--pbj-ease) both;
+}
+
+.pbj-teach-it__card-label {
+  font-size: var(--pbj-type-caption-size);
+  font-weight: 600;
+  color: var(--pbj-text-muted);
+}
+
+.pbj-teach-it__card-name {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--pbj-text);
+}
+
+@keyframes pbj-card-gather {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,28 @@
+.pbj-style-ref__hint {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--pbj-text-secondary);
+  margin: 0 0 12px;
+}
+
+.pbj-style-ref__input {
+  width: 100%;
+  border: none;
+  border-radius: var(--pbj-radius-pill);
+  background: var(--pbj-surface-elevated);
+  color: var(--pbj-text);
+  font-size: 15px;
+  padding: 14px 18px;
+  outline: none;
+  box-shadow: var(--pbj-shadow-sm);
+  transition: box-shadow 0.15s var(--pbj-ease);
+  margin-bottom: 14px;
+}
+
+.pbj-style-ref__input::placeholder {
+  color: var(--pbj-text-tertiary);
+}
+
+.pbj-style-ref__input:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--pbj-accent) 18%, transparent);
+}

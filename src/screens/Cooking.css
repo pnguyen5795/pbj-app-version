@@ -1,0 +1,184 @@
+.pbj-cooking {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--pbj-bg);
+  position: relative;
+}
+
+/* justify-content:center (not flex-start) — with the bottom controls now
+   pinned in their own wrapper below (see .pbj-cooking__bottom-actions),
+   .body's flex:1 previously collected all its slack as one dead zone
+   below the nudge copy, leaving everything in the top ~60% of the
+   screen. Centering the sandwich+status block within its own flex:1
+   region distributes that slack evenly above and below instead — see
+   the task report for the measured before/after. */
+.pbj-cooking__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pbj-space-4);
+  padding: var(--pbj-content-top) var(--pbj-gutter) 0;
+}
+
+/* ---- status block: two grouped units, not four evenly-floating lines ----
+   Unit 1 (ETA + percent) and Unit 2 (action + nudge) each read as one
+   paired block — tight gap within a unit, a deliberately larger gap
+   between the two units. No gap on the container itself; every gap is
+   an explicit margin-top below, so each one is independently tunable
+   (see the task report for the before/after measurements). */
+.pbj-cooking__status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.pbj-cooking__eta {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--pbj-text);
+  margin: 0;
+}
+
+/* Unit 1: tight pairing with the ETA line above it. */
+.pbj-cooking__percent {
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--pbj-text-secondary);
+  margin: 2px 0 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The between-units gap — Unit 1 to Unit 2. 200ms opacity-only cross-fade
+   (fade-out-old, swap text, fade-in-new — see the component) on the text
+   itself, deliberately not a slide/transform, per the earlier spec. */
+.pbj-cooking__action {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--pbj-text-secondary);
+  margin: 30px 0 0;
+  min-height: 16px;
+  opacity: 1;
+  transition: opacity 200ms var(--pbj-ease);
+}
+
+.pbj-cooking__action--fading {
+  opacity: 0;
+}
+
+/* Unit 2: tight pairing with the action line above it — same tightness
+   class as Unit 1, not the old 24px "its own separated element" gap. */
+.pbj-cooking__nudge {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--pbj-text-secondary);
+  margin: 6px 0 0;
+  max-width: 260px;
+}
+
+/* Pinned to the bottom, out of .status entirely — it was competing with
+   the nudge copy for attention mid-read. .body's own flex:1 pushes this
+   wrapper down to the true bottom whenever the push-prompt block isn't
+   also present (see the task report: on a first-run visit, this sits
+   just above that block instead of the literal screen edge). Edit Recipe
+   and Cancel are grouped here as one quiet cluster — both destructive to
+   the in-flight render, both routing through the same confirm sheet. */
+.pbj-cooking__bottom-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 32px var(--pbj-gutter) calc(var(--pbj-safe-bottom) + 32px);
+}
+
+/* One step up from Cancel — still quiet grey text, but readable as the
+   less-final of the two actions. */
+.pbj-cooking__edit-btn {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--pbj-text-tertiary);
+}
+
+/* Smallest text on screen, no button chrome, last thing the eye reaches. */
+.pbj-cooking__cancel-btn {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--pbj-text-tertiary);
+}
+
+.pbj-cooking__push {
+  padding: var(--pbj-space-2) var(--pbj-gutter) calc(var(--pbj-safe-bottom) + var(--pbj-space-2));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pbj-space-1);
+  text-align: center;
+  border-top: 1px solid var(--pbj-border);
+}
+
+.pbj-cooking__push-benefit {
+  font-size: var(--pbj-type-caption-size);
+  color: var(--pbj-text-muted);
+  margin: 0;
+}
+
+.pbj-cooking__push-confirmed {
+  font-size: var(--pbj-type-caption-size);
+  font-weight: 700;
+  color: var(--pbj-success);
+  margin: 0;
+}
+
+.pbj-cooking__confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--pbj-overlay-scrim);
+  display: flex;
+  align-items: flex-end;
+  z-index: 20;
+}
+
+.pbj-cooking__confirm {
+  width: 100%;
+  background: var(--pbj-surface-elevated);
+  border-radius: var(--pbj-radius-xl) var(--pbj-radius-xl) 0 0;
+  padding: var(--pbj-space-2) var(--pbj-gutter) calc(var(--pbj-safe-bottom) + var(--pbj-space-2));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pbj-space-button);
+  animation: pbj-slide-up 0.25s var(--pbj-ease);
+}
+
+/* Standard iOS sheet grabber — the small pill at the top center, the
+   system's own affordance for "this sheet can be dragged/dismissed."
+   Purely visual here (dismiss-on-backdrop-tap already works), but its
+   presence is what reads as "a real system sheet" rather than a custom
+   modal that happens to be bottom-anchored. */
+.pbj-cooking__confirm-grabber {
+  width: 36px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--pbj-border-strong);
+  margin-bottom: var(--pbj-space-1);
+}
+
+.pbj-cooking__confirm-text {
+  font-size: var(--pbj-type-body-size);
+  font-weight: var(--pbj-type-body-weight);
+  color: var(--pbj-text);
+  text-align: center;
+  margin: 0 0 var(--pbj-space-1);
+}
+
+/* The safe choice ("keep cooking") uses the default Button primary — bold,
+   full-width, first in DOM. The destructive one ("cancel anyway") is a
+   quiet text-link underneath it, tinted red so it still reads as the
+   dangerous option without competing for visual weight. */
+.pbj-cooking__confirm-danger-text {
+  color: var(--pbj-danger);
+}

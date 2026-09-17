@@ -1,0 +1,95 @@
+.pbj-your-style {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--pbj-bg);
+}
+
+.pbj-your-style__body {
+  flex: 1;
+  padding: var(--pbj-content-top) var(--pbj-gutter) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pbj-space-subhead-content);
+}
+
+.pbj-your-style__hero {
+  text-align: center;
+  animation: pbj-slide-up 0.5s var(--pbj-ease);
+}
+
+.pbj-your-style__title {
+  font-size: var(--pbj-type-header-size);
+  font-weight: var(--pbj-type-header-weight);
+  letter-spacing: var(--pbj-type-header-tracking);
+  line-height: var(--pbj-type-header-line);
+  color: var(--pbj-text);
+  margin: 0 0 var(--pbj-space-header-subhead);
+}
+
+.pbj-your-style__sub {
+  font-size: var(--pbj-type-subhead-size);
+  font-weight: var(--pbj-type-subhead-weight);
+  color: var(--pbj-text-muted);
+  margin: 0;
+}
+
+/* Chips grow to fill the available height (grid-auto-rows: 1fr) instead of
+   leaving a dead block below the last row; row gap unchanged. */
+.pbj-your-style__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr;
+  gap: var(--pbj-space-2);
+  flex: 1;
+  min-height: 0;
+}
+
+.pbj-your-style__chip {
+  min-height: var(--pbj-tap-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pbj-space-1);
+  padding: var(--pbj-space-1) var(--pbj-space-2);
+  border-radius: var(--pbj-radius-pill);
+  border: 1px solid var(--pbj-border-strong);
+  background: var(--pbj-surface-elevated);
+  color: var(--pbj-text);
+  font-size: var(--pbj-type-caption-size);
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: var(--pbj-shadow-raised);
+  transition: transform 0.12s var(--pbj-ease), background 0.15s var(--pbj-ease),
+    border-color 0.15s var(--pbj-ease), color 0.15s var(--pbj-ease);
+}
+
+.pbj-your-style__chip-emoji {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.pbj-your-style__chip:active {
+  transform: scale(0.96);
+}
+
+/* Neutral selected state — the purple accent token stays defined in
+   index.css but is deliberately unused here per this pass. */
+.pbj-your-style__chip--selected {
+  border: 1.5px solid #000;
+  background: var(--pbj-surface);
+  color: var(--pbj-text);
+}
+
+.pbj-your-style__chip--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pbj-your-style__footer {
+  display: flex;
+  flex-direction: column;
+  padding: var(--pbj-space-3) var(--pbj-gutter) calc(var(--pbj-safe-bottom) + var(--pbj-space-2));
+}

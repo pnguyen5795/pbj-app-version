@@ -1,0 +1,33 @@
+.pbj-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--pbj-safe-top) + var(--pbj-space-1)) var(--pbj-gutter) var(--pbj-space-1);
+  background: color-mix(in srgb, var(--pbj-bg) 82%, transparent);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+}
+
+.pbj-topbar__side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.pbj-topbar__side--right {
+  justify-content: flex-end;
+}
+
+.pbj-topbar__title {
+  flex: 2;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,31 @@
+.pbj-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pbj-tap-min);
+  height: var(--pbj-tap-min);
+  border-radius: 50%;
+  border: none;
+  background: var(--pbj-surface);
+  color: var(--pbj-text);
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.12s var(--pbj-ease), background 0.15s var(--pbj-ease);
+}
+
+.pbj-back-btn:active {
+  transform: scale(0.93);
+  background: var(--pbj-border);
+}
+
+/* Standard floating position — top-left at the gutter, consistent across
+   every screen that positions its back button over otherwise-centered or
+   absolutely-laid-out content (as opposed to sitting in-flow, e.g. inside
+   TopBar). Requires the screen's own root element to be position:relative. */
+.pbj-back-btn--floating {
+  position: absolute;
+  top: calc(var(--pbj-safe-top) + var(--pbj-gutter));
+  left: var(--pbj-gutter);
+  z-index: 5;
+}

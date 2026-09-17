@@ -1,0 +1,12 @@
+FROM node:24-bookworm-slim
+RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg ca-certificates && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --ignore-scripts
+COPY src/v2 ./src/v2
+COPY migrations ./migrations
+RUN mkdir -p /data && chown node:node /data
+USER node
+ENV NODE_ENV=production PBJ_DATA_ROOT=/data
+EXPOSE 8787
+CMD ["node", "src/v2/runtime.ts"]
