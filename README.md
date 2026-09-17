@@ -24,7 +24,7 @@ The [background work guide](docs/BACKGROUND_WORK.md) covers saved upload/revisio
 | `ios/PBJCore` | Canonical timeline, persistence and native playback/export |
 | `server/src/v2` | Current API, jobs, provider adapters and learning |
 | `server/scripts` | Mac service setup, launch support and recovery utilities |
-| `docs` | Contracts, handoff, recorded evidence and remaining work |
+| `docs` | Architecture contracts, service setup, background work and learning behavior |
 | `src`, `public`, older `server/src` files | Preserved React prototype and visual reference |
 
 The root `npm run dev`/`build` and server `npm start`/`npm run dev` target the **legacy prototype**, not the iPhone service. Use the Mac launchers for this personal installation. Prototype media/analysis stores are retained for recovery and should not be cleared or treated as a fresh library.
